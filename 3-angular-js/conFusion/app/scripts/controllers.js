@@ -8,8 +8,20 @@ angular.module('confusionApp')
         $scope.tab = 1;
         $scope.filtText = '';
         $scope.showDetails = false;
+        $scope.showMenu = false;
+        $scope.message = "Loading ...";
+        $scope.dishes = {};
 
-        $scope.dishes = menuFactory.getDishes();
+        menuFactory.getDishes()
+            .then(
+                function (response) {
+                    $scope.dishes = response.data;
+                    $scope.showMenu = true;
+                },
+                function (response) {
+                    $scope.message = "Error:" + response.status + " " + response.text;
+                }
+            );
 
         $scope.select = function (setTab) {
             $scope.tab = setTab;
@@ -71,7 +83,14 @@ angular.module('confusionApp')
     .controller('DishDetailController', ['$scope', '$routeParams', 'menuFactory',
         function ($scope, $routeParams, menuFactory) {
 
-            $scope.dish = menuFactory.getDish(parseInt($routeParams.id, 10));
+            $scope.dish = {};
+
+            menuFactory.getDish(parseInt($routeParams.id, 10))
+                .then(
+                    function (response) {
+                        $scope.dish = response.data;
+                    }
+                );
 
             $scope.comment = {author: "", rating: 5, comment: "", date: new Date().toISOString()};
 
