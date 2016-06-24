@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('confusionApp', ['ngRoute'])
+angular.module('confusionApp', ['ngRoute', 'ngResource'])
     .config(function ($routeProvider) {
         $routeProvider
 

@@ -11,7 +11,19 @@ var gulp = require('gulp'),
     rev = require('gulp-rev'),
     browserSync = require('browser-sync'),
     ngannotate = require('gulp-ng-annotate'),
-    del = require('del');
+    del = require('del'),
+    webserver = require('gulp-webserver');
+
+
+gulp.task('webserver', function() {
+    gulp.src('app')
+        .pipe(webserver({
+            livereload: true,
+            port:3001,
+            directoryListing: true,
+            open: true
+        }));
+});
 
 gulp.task('jshint', function() {
   return gulp.src('app/scripts/**/*.js')
